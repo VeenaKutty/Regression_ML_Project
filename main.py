@@ -8,6 +8,8 @@ from src.evaluation import evaluate
 from src.utils import save_object
 
 
+
+
 def main():
 
     
@@ -15,6 +17,8 @@ def main():
 
     X = df.drop("price", axis=1)
     y = df["price"]
+
+    save_object("artifacts/features.pkl", X.columns.tolist())
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
@@ -26,6 +30,7 @@ def main():
     best_name, best_model, results = train_and_compare(
         models, X_train, X_test, y_train, y_test
     )
+
 
    
     if best_name == "Random Forest":
