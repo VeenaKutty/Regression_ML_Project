@@ -2,19 +2,39 @@ from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 
+from src.evaluation import evaluate
+
 
 def get_models():
-    models = {
+    return {
         "Linear Regression": LinearRegression(),
-        "Ridge": Ridge(alpha=1.0),
-        "Lasso": Lasso(alpha=0.1, max_iter=10000),
-        "Decision Tree": DecisionTreeRegressor(max_depth=5, random_state=42),
-        "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42)
+        "Ridge": Ridge(),
+        "Lasso": Lasso(max_iter=10000),
+        "Decision Tree": DecisionTreeRegressor(max_depth=5),
+        "Random Forest": RandomForestRegressor(random_state=42)
     }
-    return models
 
 
-def train_model(model, X_train, y_train):
-    model.fit(X_train, y_train)
-    return model
+def train_and_compare(models, X_train, X_test, y_train, y_test):
+    results = []
+    trained_models = {}
 
+    for name, model in models.items():
+        model.fit(X_train, y_train)
+
+        r2, rmse = evaluate(model, X_test, y_test)
+
+        print(f"{name} → R2: {r2:.3f}, RMSE: {rmse:.2f}")
+
+        results.append((name, r2, rmse))
+        trained_models[name] = model
+
+    # Sort by best R2
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    best_name = results[0][0]
+    best_model = trained_models[best_name]
+
+    print("\n Best Model:", best_name)
+
+    return best_name, best_model, results

@@ -1,57 +1,47 @@
-
-
 from sklearn.model_selection import train_test_split
-import pandas as pd
 
-from src.data_preprocessing import (
-    load_data, clean_data, encode_data,
-    split_features_target, scale_data
-)
-
-from src.model_training import get_models, train_model
-from src.evaluation import evaluate_model
+from src.data_preprocessing import preprocess_data
+from src.model_training import get_models, train_and_compare
+from src.pipeline import create_pipeline
+from src.hyperparameter_tuning import tune_model
+from src.evaluation import evaluate
+from src.utils import save_object
 
 
 def main():
 
+    
+    df = preprocess_data("data/Automobile_data.csv")
 
-    df = load_data("data/Automobile_data.csv")
-    df = clean_data(df)
-    df = encode_data(df)
-
-
-    X, y = split_features_target(df)
+    X = df.drop("price", axis=1)
+    y = df["price"]
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
 
-    X_train_scaled, X_test_scaled = scale_data(X_train, X_test)
-
-
+    
     models = get_models()
-    results = []
 
-    for name, model in models.items():
+    best_name, best_model, results = train_and_compare(
+        models, X_train, X_test, y_train, y_test
+    )
 
-        # Use scaled data for linear models
-        if name in ["Linear Regression", "Ridge", "Lasso"]:
-            trained_model = train_model(model, X_train_scaled, y_train)
-            r2, rmse = evaluate_model(trained_model, X_test_scaled, y_test)
-        else:
-            trained_model = train_model(model, X_train, y_train)
-            r2, rmse = evaluate_model(trained_model, X_test, y_test)
+   
+    if best_name == "Random Forest":
+        print("\n Tuning Best Model...")
+        pipeline = create_pipeline()
+        best_model = tune_model(pipeline, X_train, y_train)
 
-        results.append([name, r2, rmse])
+   
+    r2, rmse = evaluate(best_model, X_test, y_test)
 
+    print("\n Final Model Performance")
+    print("R2 Score:", r2)
+    print("RMSE:", rmse)
 
-    results_df = pd.DataFrame(results, columns=["Model", "R2 Score", "RMSE"])
-    results_df = results_df.sort_values(by="R2 Score", ascending=False)
-
-    print("Model Comparison:")
-    print(results_df)
-
-    print(" Best Model:", results_df.iloc[0]["Model"])
+    
+    save_object("artifacts/model.pkl", best_model)
 
 
 if __name__ == "__main__":
