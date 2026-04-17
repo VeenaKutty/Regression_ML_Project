@@ -1,49 +1,55 @@
-# 🚗 Automobile Price Prediction using Regression Models
+# Automobile Price Prediction (End-to-End ML Project)
 
-## 📌 Project Overview
+## Project Overview
 
-This project focuses on predicting **automobile prices** using multiple regression algorithms and identifying the **best-performing model** based on evaluation metrics.
-
-We implemented a **modular machine learning pipeline** including data preprocessing, model training, and evaluation.
+This project is an end-to-end machine learning application that predicts automobile prices using regression techniques. It follows an industry-standard pipeline including data preprocessing, multi-model comparison, hyperparameter tuning, and deployment using Streamlit.
 
 ---
 
-## 🎯 Objective
+## Objective
 
 * Build multiple regression models
-* Compare their performance
-* Select the best model based on:
-
-  * R² Score
-  * RMSE (Root Mean Squared Error)
+* Compare their performance using evaluation metrics
+* Select the best model
+* Optimize it using hyperparameter tuning
+* Deploy the final model as a web application
 
 ---
 
-## 📊 Dataset
+## Dataset
 
-* **Dataset Name:** Automobile Dataset
-* Contains features like:
+* Automobile dataset
+* Contains features such as:
 
-  * Engine size
+  * Engine Size
   * Horsepower
-  * Fuel type
-  * Body style
+  * Curb Weight
   * Mileage
-* **Target Variable:** `price`
+  * Fuel Type
+  * Body Style
+* Target Variable: `price`
 
 ---
 
-## 🧹 Data Preprocessing
+## Machine Learning Workflow
 
-* Handled missing values (`? → NaN`)
+```text
+Data Preprocessing → Model Comparison → Best Model Selection → Hyperparameter Tuning → Evaluation → Deployment
+```
+
+---
+
+## Data Preprocessing
+
+* Replaced missing values (`? → NaN`)
 * Dropped null values
 * Converted data types
-* Encoded categorical features using **Label Encoding**
-* Applied **Feature Scaling** for linear models
+* Encoded categorical features
+* Applied feature scaling using StandardScaler
 
 ---
 
-## ⚙️ Models Used
+## Models Used
 
 * Linear Regression
 * Ridge Regression
@@ -53,122 +59,139 @@ We implemented a **modular machine learning pipeline** including data preprocess
 
 ---
 
-## 📈 Model Evaluation Metrics
+## Model Selection Strategy
 
-* **R² Score** → Measures accuracy
-* **RMSE** → Measures prediction error
+* Compared models using:
 
----
-
-## 🏆 Results
-
-| Model           | R² Score | RMSE     |
-| --------------- | -------- | -------- |
-| Random Forest ⭐ | Highest  | Lowest   |
-| Decision Tree   | Good     | Moderate |
-| Linear Models   | Average  | Higher   |
-
-👉 **Random Forest performed the best** due to its ability to handle non-linear relationships and reduce overfitting.
+  * R² Score
+  * RMSE
+* Selected the best-performing model
+* Applied GridSearchCV for hyperparameter tuning
 
 ---
 
-## 🧠 Key Insights
+## Results
 
-* Linear models struggle with complex data
-* Tree-based models capture non-linearity better
-* Ensemble methods (Random Forest) give the most accurate predictions
+* Random Forest performed best
+* Achieved highest R² score and lowest RMSE
+* Performance improved after tuning
 
 ---
 
-## 📁 Project Structure
+## Deployment
 
-```
-project/
+* Built using Streamlit
+* Provides a simple interface for user input
+* Generates real-time predictions
+
+---
+
+## Project Structure
+
+```bash
+automobile-price-prediction/
 │
 ├── data/
 │   └── Automobile_data.csv
 │
 ├── src/
 │   ├── data_preprocessing.py
+│   ├── pipeline.py
 │   ├── model_training.py
 │   ├── evaluation.py
+│   ├── hyperparameter_tuning.py
+│   ├── utils.py
 │
+├── artifacts/
+│
+├── app.py
 ├── main.py
+├── requirements.txt
+├── .gitignore
 ├── README.md
 ```
 
 ---
 
-## 🚀 How to Run the Project
+## How to Run Locally
 
-### 1️⃣ Clone the Repository
+### 1. Clone Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/your-username/automobile-price-prediction.git
+cd automobile-price-prediction
 ```
 
-### 2️⃣ Create Virtual Environment
+### 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### 3️⃣ Activate Environment
-
-**Windows:**
+### 3. Activate Environment
 
 ```bash
-venv\Scripts\activate
+venv\Scripts\activate   # Windows
+source venv/bin/activate  # Mac/Linux
 ```
 
-**Mac/Linux:**
-
-```bash
-source venv/bin/activate
-```
-
-### 4️⃣ Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5️⃣ Run the Project
+### 5. Train Model
 
 ```bash
 python main.py
 ```
 
----
+### 6. Run Application
 
-## 📦 Requirements
-
-* Python 3.x
-* pandas
-* numpy
-* scikit-learn
-* matplotlib
+```bash
+streamlit run app.py
+```
 
 ---
 
-## 🔮 Future Improvements
+## Live Demo
 
-* Hyperparameter tuning (GridSearchCV)
-* Feature importance visualization
-* Model deployment (Streamlit / Flask)
-* Pipeline automation
+Add your Streamlit deployment link here.
 
 ---
 
-## 👩‍💻 Author
+## Key Learnings
 
-**Veena Kutty**
+* Built a modular machine learning pipeline
+* Implemented multi-model comparison
+* Applied hyperparameter tuning
+* Addressed feature consistency between training and inference
+* Deployed a machine learning model using Streamlit
+
+---
+
+## Note
+
+Model artifacts are not stored in the repository. They are generated during training and saved locally.
 
 ---
 
-## ⭐ If you like this project
+## Future Improvements
 
-Give it a ⭐ on GitHub and share it!
+* Add complete feature input interface
+* Deploy using a backend framework such as Flask
+* Introduce model versioning
+* Improve user interface
 
 ---
+
+## Author
+
+Veena Kutty
+
+---
+
+## Support
+
+If you find this project useful, consider giving it a star on GitHub.
